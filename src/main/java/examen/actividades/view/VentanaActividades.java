@@ -22,8 +22,11 @@ public class VentanaActividades extends JFrame {
     private final JComboBox<String> cmbTipo = new JComboBox<>(new String[]{"PRESENCIAL", "VIRTUAL"});
     private final JTextField txtCodigoConsulta = new JTextField(18);
     private final JButton btnRegistrar = new JButton("Registrar");
+    private final JButton btnLimpiar = new JButton("Limpiar");
+    private final JButton btnGuardar = new JButton("Guardar datos");
+    private final JButton btnCargar = new JButton("Cargar datos");
     private final JButton btnBuscar = new JButton("Buscar");
-    private final JButton btnListar = new JButton("Listar todo");
+    private final JButton btnMostrarTodas = new JButton("Mostrar todas");
     private final JButton btnInscribir = new JButton("Inscribir");
     private final JTextArea txtResultado = new JTextArea(12, 38);
 
@@ -62,6 +65,7 @@ public class VentanaActividades extends JFrame {
 
         JPanel fila6 = new JPanel(new FlowLayout(FlowLayout.LEFT));
         fila6.add(btnRegistrar);
+        fila6.add(btnLimpiar);
 
         panelFormulario.add(fila1);
         panelFormulario.add(fila2);
@@ -79,7 +83,9 @@ public class VentanaActividades extends JFrame {
         filaConsulta.add(txtCodigoConsulta);
         filaConsulta.add(btnBuscar);
         filaConsulta.add(btnInscribir);
-        filaConsulta.add(btnListar);
+        filaConsulta.add(btnMostrarTodas);
+        filaConsulta.add(btnGuardar);
+        filaConsulta.add(btnCargar);
 
         txtResultado.setEditable(false);
         txtResultado.setText("Resultados aparecerán aquí.");
@@ -127,12 +133,24 @@ public class VentanaActividades extends JFrame {
         return btnRegistrar;
     }
 
+    public JButton getBtnLimpiar() {
+        return btnLimpiar;
+    }
+
+    public JButton getBtnGuardar() {
+        return btnGuardar;
+    }
+
+    public JButton getBtnCargar() {
+        return btnCargar;
+    }
+
     public JButton getBtnBuscar() {
         return btnBuscar;
     }
 
-    public JButton getBtnListar() {
-        return btnListar;
+    public JButton getBtnMostrarTodas() {
+        return btnMostrarTodas;
     }
 
     public JButton getBtnInscribir() {
@@ -142,7 +160,7 @@ public class VentanaActividades extends JFrame {
 
     public JTextArea getTxtResultado() { return txtResultado; }
 
-    public void mostrarResultado(String texto) { txtResultado.setText(texto); }
+    public void mostrarResultado(String texto) { txtResultado.setText(texRto); }
 
     public void limpiarFormulario() {
         txtCodigo.setText("");

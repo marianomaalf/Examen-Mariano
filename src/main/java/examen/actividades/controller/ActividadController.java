@@ -23,9 +23,12 @@ public class ActividadController {
 
     private void configurarEventos() {
         vista.getBtnRegistrar().addActionListener(e -> registrar());
+        vista.getBtnLimpiar().addActionListener(e -> limpiar());
+        vista.getBtnGuardar().addActionListener(e -> guardarDatos());
+        vista.getBtnCargar().addActionListener(e -> cargarDatos());
         vista.getBtnBuscar().addActionListener(e -> buscar());
         vista.getBtnInscribir().addActionListener(e -> inscribir());
-        vista.getBtnListar().addActionListener(e -> mostrarTodas());
+        vista.getBtnMostrarTodas().addActionListener(e -> mostrarTodas());
     }
 
     public void iniciar() {
@@ -146,6 +149,15 @@ public class ActividadController {
         }
     }
 
+    public void cargarDatos() {
+        try {
+            servicio.cargarDatos();
+            mostrarTodas();
+        } catch (Exception e) {
+            vista.mostrarResultado("Error al cargar datos:\n" + e.getMessage());
+        }
+    }
+
     private String formatearActividad(Actividad actividad) {
         if (actividad == null) {
             return "Actividad no encontrada.";
@@ -160,4 +172,3 @@ public class ActividadController {
                 + "\nTipo: " + actividad.getTipoActividad();
     }
 }
-
