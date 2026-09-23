@@ -1,0 +1,1 @@
+A01,Fotografia,5000.0,2,2,PRESENCIAL
