@@ -10,7 +10,7 @@ public class ActividadController {
     private final VentanaActividades vista;
     private final ActividadService servicio;
 
-    // Conserva un ActividadService conectado a RepositorioActividadTxt("actividades.txt").
+
     public ActividadController(VentanaActividades vista) {
         this(vista, new ActividadService(new RepositorioActividadTxt("actividades.txt")));
     }
@@ -33,11 +33,11 @@ public class ActividadController {
 
     public void iniciar() {
         try {
-            // Dejar el selector sin selección inicial
+
             vista.getCmbTipo().setSelectedItem(null);
-            // Solicitar carga inicial de datos desde repositorio
+
             servicio.cargarDatos();
-            // Mostrar todas tras carga
+
             mostrarTodas();
             vista.setVisible(true);
         } catch (Exception e) {
@@ -45,7 +45,7 @@ public class ActividadController {
         }
     }
 
-    // registrar(): leer formulario, convertir y registrar; si ok, mostrar todas.
+
     public void registrar() {
         try {
             String codigo = vista.getTxtCodigo().getText().trim();
@@ -59,7 +59,7 @@ public class ActividadController {
             String tipo = sel.toString();
 
             servicio.registrarActividad(codigo, nombre, tarifaBase, cupoTotal, tipo);
-            // Mostrar todas las actividades y anteponer mensaje de éxito
+
             List<Actividad> actividades = servicio.listarActividades();
             StringBuilder sb = new StringBuilder();
             sb.append("Actividad registrada correctamente.\n\n");
@@ -73,7 +73,7 @@ public class ActividadController {
         }
     }
 
-    // buscar(): consultar txtCodigoConsulta y mostrar la actividad o mensaje.
+
     public void buscar() {
         try {
             String codigo = vista.getTxtCodigoConsulta().getText().trim();
@@ -92,7 +92,7 @@ public class ActividadController {
         }
     }
 
-    // inscribir(): usar txtCodigoConsulta sin búsqueda previa; inscribir y actualizar listado.
+
     public void inscribir() {
         try {
             String codigo = vista.getTxtCodigoConsulta().getText().trim();
@@ -101,7 +101,7 @@ public class ActividadController {
                 return;
             }
             servicio.inscribir(codigo);
-            // Mostrar todas las actividades y anteponer mensaje de éxito
+
             List<Actividad> actividades = servicio.listarActividades();
             StringBuilder sb = new StringBuilder();
             sb.append("Inscripción realizada correctamente.\n\n");
@@ -114,7 +114,7 @@ public class ActividadController {
         }
     }
 
-    // mostrarTodas(): obtener la lista del servicio y mostrar todas en orden.
+
     public void mostrarTodas() {
         try {
             List<Actividad> actividades = servicio.listarActividades();
@@ -132,14 +132,14 @@ public class ActividadController {
         }
     }
 
-    // limpiar(): vaciar los cinco campos de texto y dejar el tipo sin selección.
+
     public void limpiar() {
         vista.limpiarFormulario();
         // dejar tipo sin selección explícitamente
         vista.getCmbTipo().setSelectedItem(null);
     }
 
-    // guardarDatos(): solicitar guardado al servicio y mostrar confirmación o error.
+
     public void guardarDatos() {
         try {
             servicio.guardarDatos();
