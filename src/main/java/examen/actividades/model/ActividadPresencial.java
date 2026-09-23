@@ -2,7 +2,7 @@ package examen.actividades.model;
 
 public class ActividadPresencial extends Actividad{
 
-    private final double RECARGO_PRESENCIAL = 1.500;
+    private final double RECARGO_PRESENCIAL = 1500;
 
     public ActividadPresencial(String codigo, String nombre, double tarifaBase, int cupoTotal) {
         super(codigo, nombre, tarifaBase, cupoTotal);

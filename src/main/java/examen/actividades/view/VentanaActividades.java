@@ -28,7 +28,7 @@ public class VentanaActividades extends JFrame {
     private final JTextArea txtResultado = new JTextArea(12, 38);
 
     public VentanaActividades() {
-        setTitle("Examen de Programación III - Actividades");
+        setTitle("Actividades");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(760, 520);
 

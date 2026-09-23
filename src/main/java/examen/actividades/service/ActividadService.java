@@ -23,13 +23,25 @@ public class ActividadService {
     }
 
     public void registrarActividad(String codigo, String nombre, double tarifaBase, int cupoTotal, String tipoActividad) throws IllegalArgumentException {
+        if (codigo == null || codigo.trim().isEmpty()) {
+            throw new IllegalArgumentException("El código no puede estar vacío.");
+        }
+        if (nombre == null || nombre.trim().isEmpty()) {
+            throw new IllegalArgumentException("El nombre no puede estar vacío.");
+        }
 
-        Actividad actividad = null;
+        for (Actividad actividad : actividades) {
+            if (actividad.getCodigo().equalsIgnoreCase(codigo.trim()) || actividad.getNombre().equalsIgnoreCase(nombre.trim())) {
+                throw new IllegalArgumentException("No se pueden registrar actividades con el mismo código o nombre.");
+            }
+        }
+
+        Actividad actividad;
 
         if (tipoActividad.equalsIgnoreCase("PRESENCIAL")) {
-            actividad = new examen.actividades.model.ActividadPresencial(codigo, nombre, tarifaBase, cupoTotal);
+            actividad = new examen.actividades.model.ActividadPresencial(codigo.trim(), nombre.trim(), tarifaBase, cupoTotal);
         } else if (tipoActividad.equalsIgnoreCase("VIRTUAL")) {
-            actividad = new examen.actividades.model.ActividadVirtual(codigo, nombre, tarifaBase, cupoTotal);
+            actividad = new examen.actividades.model.ActividadVirtual(codigo.trim(), nombre.trim(), tarifaBase, cupoTotal);
         } else {
             throw new IllegalArgumentException("Tipo de actividad no válido.");
         }
@@ -41,7 +53,6 @@ public class ActividadService {
         } catch (Exception e) {
             throw new RuntimeException("Error al guardar la actividad: " + e.getMessage());
         }
-
     }
 
     public Actividad buscarPorCodigo(String codigo) {
