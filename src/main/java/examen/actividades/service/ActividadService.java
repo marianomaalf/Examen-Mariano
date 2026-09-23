@@ -29,6 +29,9 @@ public class ActividadService {
         if (nombre == null || nombre.trim().isEmpty()) {
             throw new IllegalArgumentException("El nombre no puede estar vacío.");
         }
+        if (cupoTotal <= 0) {
+            throw new IllegalArgumentException("El cupo total debe ser mayor que cero.");
+        }
 
         for (Actividad actividad : actividades) {
             if (actividad.getCodigo().equalsIgnoreCase(codigo.trim())) {
@@ -47,12 +50,6 @@ public class ActividadService {
         }
 
         actividades.add(actividad);
-
-        try {
-            repositorio.guardarTodos(actividades);
-        } catch (Exception e) {
-            throw new RuntimeException("Error al guardar la actividad: " + e.getMessage());
-        }
     }
 
     public Actividad buscarPorCodigo(String codigo) {
@@ -82,12 +79,6 @@ public class ActividadService {
             throw new IllegalArgumentException("No hay cupos disponibles para esta actividad.");
         }
         actividad.setInscritos(actividad.getInscritos() + 1);
-
-        try {
-            repositorio.guardarTodos(actividades);
-        } catch (Exception e) {
-            throw new RuntimeException("Error al guardar la inscripción: " + e.getMessage());
-        }
     }
 
     public void cargarDatos() throws Exception {

@@ -160,7 +160,7 @@ public class VentanaActividades extends JFrame {
 
     public JTextArea getTxtResultado() { return txtResultado; }
 
-    public void mostrarResultado(String texto) { txtResultado.setText(texRto); }
+    public void mostrarResultado(String texto) { txtResultado.setText(texto); }
 
     public void limpiarFormulario() {
         txtCodigo.setText("");

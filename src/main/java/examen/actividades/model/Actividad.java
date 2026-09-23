@@ -15,7 +15,7 @@ public abstract class Actividad{
         this.inscritos = 0;
         this.cupoTotal = cupoTotal;
 
-        if(codigo.isEmpty() || nombre.isEmpty() || tarifaBase < 0 || cupoTotal < 0){
+        if(codigo.isEmpty() || nombre.isEmpty() || tarifaBase < 0 || cupoTotal <= 0){
             throw new IllegalArgumentException("Los datos de la actividad no son válidos.");
         }
 
@@ -50,6 +50,9 @@ public abstract class Actividad{
     }
 
     public void setCupoTotal(int cupoTotal) {
+        if (cupoTotal <= 0) {
+            throw new IllegalArgumentException("El cupo total debe ser mayor que cero.");
+        }
         this.cupoTotal = cupoTotal;
     }
 
