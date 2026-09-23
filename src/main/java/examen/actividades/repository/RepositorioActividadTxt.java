@@ -23,6 +23,51 @@ public class RepositorioActividadTxt implements Repositorio<Actividad> {
 
     }
 
+    private String convertirALinea(Actividad actividad) {
+        if (actividad == null) {
+            throw new IllegalArgumentException("La actividad no puede ser nula.");
+        }
+
+        return String.join(",",
+                actividad.getCodigo(),
+                actividad.getNombre(),
+                String.valueOf(actividad.getTarifaBase()),
+                String.valueOf(actividad.getCupoTotal()),
+                String.valueOf(actividad.getInscritos()),
+                actividad.getTipoActividad().name()
+        );
+    }
+
+    private Actividad convertirDesdeLinea(String linea) {
+        if (linea == null || linea.trim().isEmpty()) {
+            throw new IllegalArgumentException("La línea no puede estar vacía.");
+        }
+
+        String[] datos = linea.split(",", -1);
+        if (datos.length != 6) {
+            throw new IllegalArgumentException("Línea inválida: " + linea);
+        }
+
+        String codigo = datos[0].trim();
+        String nombre = datos[1].trim();
+        double tarifaBase = Double.parseDouble(datos[2].trim());
+        int cupoTotal = Integer.parseInt(datos[3].trim());
+        int inscritos = Integer.parseInt(datos[4].trim());
+        String tipo = datos[5].trim();
+
+        Actividad actividad;
+        if (tipo.equalsIgnoreCase("PRESENCIAL")) {
+            actividad = new ActividadPresencial(codigo, nombre, tarifaBase, cupoTotal);
+        } else if (tipo.equalsIgnoreCase("VIRTUAL")) {
+            actividad = new ActividadVirtual(codigo, nombre, tarifaBase, cupoTotal);
+        } else {
+            throw new IllegalArgumentException("Tipo de actividad inválido: " + tipo);
+        }
+
+        actividad.setInscritos(inscritos);
+        return actividad;
+    }
+
     @Override
     public List<Actividad> cargarTodos() throws IOException {
 
@@ -40,28 +85,10 @@ public class RepositorioActividadTxt implements Repositorio<Actividad> {
             List<Actividad> lista = new ArrayList<>();
 
             for(String linea : lineas){
-                String[] datos = linea.split(",");
-
-                if(datos.length == 6){
-                    String codigo = datos[0].trim();
-                    String nombre = datos[1].trim();
-                    double tarifaBase = Double.parseDouble(datos[2].trim());
-                    int cupoTotal = Integer.parseInt(datos[3].trim());
-                    int inscritos = Integer.parseInt(datos[4].trim());
-                    String tipo = datos[5].trim();
-
-                    Actividad actividad;
-                    if(tipo.equalsIgnoreCase("PRESENCIAL")){
-                        actividad = new ActividadPresencial(codigo, nombre, tarifaBase, cupoTotal);
-                    } else if(tipo.equalsIgnoreCase("VIRTUAL")){
-                        actividad = new ActividadVirtual(codigo, nombre, tarifaBase, cupoTotal);
-                    } else {
-                        throw new IOException("Tipo de actividad inválido: " + tipo);
-                    }
-                    
-                    actividad.setInscritos(inscritos);
-                    lista.add(actividad);
+                if (linea == null || linea.trim().isEmpty()) {
+                    continue;
                 }
+                lista.add(convertirDesdeLinea(linea));
             }
 
             return lista;
@@ -74,10 +101,31 @@ public class RepositorioActividadTxt implements Repositorio<Actividad> {
     }
 
     @Override
-    public void guardarTodos(List<Actividad> lista) {
+    public void guardarTodos(List<Actividad> lista) throws IOException {
+        java.nio.file.Path path = Paths.get(rutaArchivo);
+        java.nio.file.Path carpeta = path.getParent();
+        if (carpeta != null) {
+            Files.createDirectories(carpeta);
+        }
 
+        List<String> lineas = new ArrayList<>();
+        for (Actividad a : lista) {
+            lineas.add(convertirALinea(a));
+        }
 
+        // Escribe el archivo: CREATE si no existe, TRUNCATE para sobrescribir.
+        java.nio.file.Files.write(
+                path,
+                lineas,
+                java.nio.charset.StandardCharsets.UTF_8,
+                java.nio.file.StandardOpenOption.CREATE,
+                java.nio.file.StandardOpenOption.TRUNCATE_EXISTING
+        );
     }
+
+
+
+
 
 
 }

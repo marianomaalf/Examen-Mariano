@@ -7,6 +7,6 @@ public interface Repositorio<T> {
 
      public List<T> cargarTodos() throws IOException;
 
-     public void guardarTodos(List<T> lista);
+     public void guardarTodos(List<T> lista) throws IOException;
 
 }
