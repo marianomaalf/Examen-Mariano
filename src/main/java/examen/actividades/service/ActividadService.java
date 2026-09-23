@@ -31,8 +31,8 @@ public class ActividadService {
         }
 
         for (Actividad actividad : actividades) {
-            if (actividad.getCodigo().equalsIgnoreCase(codigo.trim()) || actividad.getNombre().equalsIgnoreCase(nombre.trim())) {
-                throw new IllegalArgumentException("No se pueden registrar actividades con el mismo código o nombre.");
+            if (actividad.getCodigo().equalsIgnoreCase(codigo.trim())) {
+                throw new IllegalArgumentException("No se pueden registrar actividades con el mismo código.");
             }
         }
 
